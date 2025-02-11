@@ -1,13 +1,14 @@
 ﻿using Fretefy.Test.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fretefy.Test.Domain.Interfaces.Repositories
 {
-    public interface ICidadeRepository
+    public interface ICidadeRepository:IBaseRepository<Cidade>
     {
-        IQueryable<Cidade> List();
-        IEnumerable<Cidade> ListByUf(string uf);
-        IEnumerable<Cidade> Query(string terms);
+        Task<IQueryable<Cidade>> List();
+        Task<IEnumerable<Cidade>> ListByUf(string uf);
+        Task<IEnumerable<Cidade>> Query(string terms);
     }
 }

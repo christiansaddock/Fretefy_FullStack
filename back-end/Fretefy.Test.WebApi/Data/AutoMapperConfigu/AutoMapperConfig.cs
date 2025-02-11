@@ -12,6 +12,14 @@ namespace Fretefy.Test.WebApi.Data.AutoMapperConfigu
             CreateMap<Regiao, RegiaoCidade>().ReverseMap();
             CreateMap<Regiao, RegiaoCreate>().ReverseMap();
             CreateMap<Regiao, RegiaoUpdate>().ReverseMap();
+
+            CreateMap<Regiao, RegiaoCidade>()
+            .ForMember(dest => dest.Cidades, opt => opt.MapFrom(src => src.Cidades));
+
+            CreateMap<Cidade, CidadeCreate>().ReverseMap();
+            CreateMap<Cidade, CidadeUpdate>().ReverseMap();
+            CreateMap<Cidade, CidadeDto>().ReverseMap();
+            CreateMap<Cidade, CidadeGet>().ReverseMap();
         }
     }
 }

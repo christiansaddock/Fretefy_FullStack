@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System; // Adicionado para o Swagger
+using System;
 
 namespace Fretefy.Test.WebApi
 {
@@ -27,11 +27,27 @@ namespace Fretefy.Test.WebApi
                 options.UseSqlite("Data Source=Data\\Test.db");
             });
 
+            services.AddHttpClient<CidadeService>();
             ConfigureInfraService(services);
             ConfigureDomainService(services);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddControllers(); // Alterado de AddMvc() para AddControllers()
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()    
+                           .AllowAnyMethod()    
+                           .AllowAnyHeader();  
+                });
+            });
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+                });
 
             // Configuração do Swagger
             services.AddSwaggerGen(c =>
@@ -64,12 +80,14 @@ namespace Fretefy.Test.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("AllowAll");
+
             // Adicionando Swagger ao pipeline
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fretefy API v1");
-                c.RoutePrefix = string.Empty; // Para acessar diretamente em http://localhost:5000
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();

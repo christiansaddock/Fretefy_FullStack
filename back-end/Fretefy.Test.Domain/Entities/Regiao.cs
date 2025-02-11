@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Fretefy.Test.Domain.Entities
 {
@@ -19,6 +20,7 @@ namespace Fretefy.Test.Domain.Entities
         }
         public Guid Id { get; set; }
         public string Nome { get; set; }
-        public List<Cidade> Cidades { get; set; }
+        [JsonIgnore]
+        public virtual List<Cidade> Cidades { get; set; }
     }
 }

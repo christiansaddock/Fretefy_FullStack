@@ -29,10 +29,10 @@ namespace Fretefy.Test.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<RegiaoDto> Get(Guid id)
+        public async Task<RegiaoCidade> Get(Guid id)
         {
-            var regiao = await _regiaoService.Get(id);
-            return _mapper.Map<RegiaoDto>(regiao);
+            var regiao = await _regiaoService.GetRegionInner(id);
+            return _mapper.Map<RegiaoCidade>(regiao);
         }
         
 
@@ -59,9 +59,20 @@ namespace Fretefy.Test.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _regiaoService.DeleteRegiao(id);
+            try
+            {
+                await _regiaoService.DeleteRegiao(id);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, new { Message = "Erro interno no servidor", Details = ex.Message });
+
+            }
         }
 
         [HttpGet("{id}/export")]

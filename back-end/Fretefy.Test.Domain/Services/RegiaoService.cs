@@ -35,33 +35,39 @@ namespace Fretefy.Test.Domain.Services
 
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Região");
-                sheet.Cells[1, 1].Value = "ID";
-                sheet.Cells[1, 2].Value = "Nome";
+                var sheet = package.Workbook.Worksheets.Add("Regiao e Cidades");
 
-                sheet.Cells[2, 1].Value = regiao.Id.ToString();
-                sheet.Cells[2, 2].Value = regiao.Nome;
-
-                var sheetCidades = package.Workbook.Worksheets.Add("Cidades");
-                sheetCidades.Cells[1, 1].Value = "ID";
-                sheetCidades.Cells[1, 2].Value = "Nome";
-                sheetCidades.Cells[1, 3].Value = "UF";
+                sheet.Cells[1, 1].Value = "ID Região";
+                sheet.Cells[1, 2].Value = "Nome Região";
+                sheet.Cells[1, 3].Value = "ID Cidade";
+                sheet.Cells[1, 4].Value = "Nome Cidade";
+                sheet.Cells[1, 5].Value = "UF";
+                sheet.Cells[1, 6].Value = "Lat";
+                sheet.Cells[1, 7].Value = "Longi";
 
                 int row = 2;
                 foreach (var cidade in regiao.Cidades)
                 {
-                    sheetCidades.Cells[row, 1].Value = cidade.Id.ToString();
-                    sheetCidades.Cells[row, 2].Value = cidade.Nome;
-                    sheetCidades.Cells[row, 3].Value = cidade.UF;
+                    sheet.Cells[row, 1].Value = regiao.Id.ToString();
+                    sheet.Cells[row, 2].Value = regiao.Nome;
+                    sheet.Cells[row, 3].Value = cidade.Id.ToString();
+                    sheet.Cells[row, 4].Value = cidade.Nome;
+                    sheet.Cells[row, 5].Value = cidade.UF;
+                    sheet.Cells[row, 6].Value = cidade.Lat;
+                    sheet.Cells[row, 7].Value = cidade.Longi;
                     row++;
                 }
-
                 return package.GetAsByteArray();
             }
         }
         public async Task<Regiao> Get(Guid id)
         {
            return await _regiaoRepository.Get(id);
+        }
+
+        public async Task<Regiao> GetRegionInner(Guid id)
+        {
+            return await _regiaoRepository.GetRegionInner(id);
         }
 
         public async Task<IEnumerable<Regiao>> List()

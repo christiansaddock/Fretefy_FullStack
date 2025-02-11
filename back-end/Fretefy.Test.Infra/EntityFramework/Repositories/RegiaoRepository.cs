@@ -17,7 +17,7 @@ namespace Fretefy.Test.Infra.EntityFramework.Repositories
 
         public async Task<Regiao> GetRegionInner(Guid id)
         {
-            return await _dbSet.Include( r => r.Cidades).FirstOrDefaultAsync( r => r.Id == id);
+            return await _dbSet.Include( r => r.Cidades).FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<IQueryable<Regiao>> List()

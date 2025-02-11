@@ -22,8 +22,17 @@ namespace Fretefy.Test.Infra.EntityFramework.Repositories
         }
         public async Task Add(Tentity entidade)
         {
-            _dbSet.Add(entidade);
-            await SaveChanges();
+            try
+            {
+                _dbSet.Add(entidade);
+                await SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task Delete(Guid Id)
@@ -34,6 +43,7 @@ namespace Fretefy.Test.Infra.EntityFramework.Repositories
                 _dbSet.Remove(entity);
                 await SaveChanges();
             }
+            throw new Exception("Id não encontrada");
         }
 
         public async Task<Tentity> Get(Guid id)

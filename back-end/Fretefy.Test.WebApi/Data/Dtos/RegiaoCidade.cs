@@ -10,5 +10,7 @@ namespace Fretefy.Test.WebApi.Data.Dtos
         public string Nome { get; set; }
 
         public List<Cidade> Cidades { get; set; }
+
+
     }
 }

@@ -3,32 +3,32 @@ using Fretefy.Test.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fretefy.Test.Infra.EntityFramework.Repositories
 {
-    public class CidadeRepository : ICidadeRepository
+    public class CidadeRepository : BaseRepository<Cidade>, ICidadeRepository
     {
-        private DbSet<Cidade> _dbSet;
-
-        public CidadeRepository(DbContext dbContext)
+        public CidadeRepository(TestDbContext myContext) : base(myContext)
         {
-            _dbSet = dbContext.Set<Cidade>();
         }
 
-        public IQueryable<Cidade> List()
+        public async Task<IQueryable<Cidade>> List()
         {
             return _dbSet.AsQueryable();
         }
 
-        public IEnumerable<Cidade> ListByUf(string uf)
+        public async Task<IEnumerable<Cidade>> ListByUf(string uf)
         {
             return _dbSet.Where(w => EF.Functions.Like(w.UF, $"%{uf}%"));
         }
 
-        public IEnumerable<Cidade> Query(string terms)
+        public async Task<IEnumerable<Cidade>> Query(string terms)
         {
 
             return _dbSet.Where(w => EF.Functions.Like(w.Nome, $"%{terms}%") || EF.Functions.Like(w.UF, $"%{terms}%"));
         }
+
+
     }
 }

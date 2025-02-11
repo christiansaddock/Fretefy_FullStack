@@ -13,6 +13,7 @@ namespace Fretefy.Test.Domain.Interfaces.Services
         Task UpdateRegiao(Regiao regiao);
         Task DeleteRegiao(Guid id);
         Task<Regiao> Get(Guid id);
+        Task<Regiao> GetRegionInner(Guid id);
         Task<IEnumerable<Regiao>> List();
         Task<IEnumerable<Regiao>> ListByUf(string uf);
         Task<IEnumerable<Regiao>> Query(string terms);
